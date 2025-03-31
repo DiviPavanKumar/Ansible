@@ -1,0 +1,21 @@
+- name: Practicing vars at task level  # Playbook to understand variable scopes
+  hosts: nodes  # Target hosts (defined in inventory)
+  vars:  # Defining play-level variables (global for all tasks)
+    money: "1 crore"  # Initial money value at play level
+    land: "10 Acres"  # Initial land value at play level
+    gold: "5 kgs"  # Initial gold value at play level
+
+  tasks:
+    - name: Print play-level variables  # Task using play-level variables
+      ansible.builtin.debug:
+        msg: "Pavan earned {{ money }} money, {{ land }} land, and {{ gold }} gold"
+
+    - name: Print task-level variables  # Task with its own task-level variables
+      vars:  # Defining task-specific variables (overrides play-level variables)
+        money: "10 crore"  # Updated money value for this task only
+        land: "5 Commercial Lands"  # Updated land value for this task only
+        gold: "10 kgs"  # Updated gold value for this task only
+      ansible.builtin.debug:
+        msg: "His son increased the assets to {{ money }} money, {{ land }}, and {{ gold }} gold"
+
+

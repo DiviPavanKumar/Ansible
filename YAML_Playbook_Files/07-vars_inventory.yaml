@@ -1,0 +1,6 @@
+- name: Vars from inventory files  # Playbook to fetch variables from inventory
+  hosts: nodes  # Target hosts (defined in inventory)
+  tasks:
+    - name: Show the var value from inventory  # Task to print variable value
+      ansible.builtin.debug:
+        msg: "Name is: {{ NAME }}"  # Display the value of NAME variable

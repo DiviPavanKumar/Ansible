@@ -1,0 +1,175 @@
+Ansible: A Powerful IT Automation Tool
+
+Ansible is an open-source IT automation tool used in DevOps for configuration management, application deployment, orchestration, and infrastructure automation. It simplifies complex workflows by enabling agentless, declarative automation using human-readable YAML playbooks.
+
+Its Same like below tools(PULL Machanisam), But Ansible(Push Machanisam) is more flexible:
+-> CHEF
+-> PUPPET
+-> SALT
+
+   [
+   PULL Machanisam: 
+        -> If configuration server is CHEF or PUPPET: First Nodes will connect to server by using agent(software) and then pull and run the configuration.
+		                                              we need to schedule how frequently nodes should connect to server like once in 30 minutes.													  
+   PUSH Machanisam:
+        -> If configuration server is Ansible: Nodes will not do anything(No agent required).Server will directly push and run the configuration.
+		                                       (Ansible uses SSH authentication then connect to the nodes)
+											   Ansible major advantage is PUSH architecture
+    ]
+	
+Ansible is a popular configuration management tool now.
+
+What is configuration???
+Before deploying the application we need to make the server ready. For example
+-> Installing packages
+-> Installing Programming languages
+-> Installing build tools.
+-> Installing Application Runtime.
+-> Creation of users, folders, etc.
+-> Setting permissions.
+-> Creation of systemctl services.
+
+As a DevOps engineer we need to do this effectively. Basically CRUD over the server.
+-> Creation of configuration --> should be fast and accurate
+-> Update the configuration --> any changes in configuration should be rolled out asap.
+-> Delete the configuration --> delete the configuration if not required.
+-> Read the configuration --> it is easy to read the configuration of server through ansible playbooks.
+
+Earlier we were doing this manually or with shell scripting, but there are few disadvantages with shell script.
+Disadvantages of Shell_Script and why Ansible come to place?
+-> Shell Script is homegenous.
+   Ex: $useradd roboshop --> centos
+	   $adduser roboshop --> ubuntu
+	   Means one shell_script can only work one particlur distro. Thats why its Homogenous, Not hetrogenous like Ansible
+-> Everytime we need to do validations
+-> It can't scale to more servers
+-> If we have 1000 servers, we need to login each server and run the script
+-> Its Imparative Programming
+
+   [
+   Imparative --> Little tough and strict syntax and follows in sequence.
+   Declarative --> Easy Syntax, no need of sequence. we can write anywhere
+                   whatever we write, we will get it. Simple syntax
+	]			   
+
+The above disadvantages addressed by Ansible:
+-> Ansible can query the server. it can understand what OS it is and based on that it can change the command.
+-> Ansible take care of validations and echo statements to the users.(We no need to write validations - if something goes wrong, sript will come-out automatically)
+-> Ansible can scale to many servers - Ansible can connect any number of servers and we no need to login into the servers
+-> Its Declarative Programming.
+-> We can re-use the code through the feature of roles
+
+This makes Ansible a simple, scalable, and efficient solution for IT automation.
+
+Ansible Commands:
+-> $yum install ansible - It install Ansible (Ansible is developed based on Python Programming, thats why its will install python packages) (Home Directory: /etc/ansible)
+                          Installed service includes directory "roles" and Files "inventory"(Node's Address book) and ".configuration"
+						  
+-> $ansible -i <Node_PrivateIP>, all -e ansible_user=<UserName> -e ansible_password=<Password> -m ping (one way of connection)
+   $ansible -i <Inventory_File_Path> all -m ping (Another way of connection)
+   $ansible -m ping all -i <Inventory_File_Path> 
+       -> -i means inventory(List of hosts which is managing by Ansible)
+	   -> -m means module
+	   -> -a parameters
+	   -> -b root or --become 
+	   
+[ Recomended, Not Mandatory below concept:
+Any Project in IT have presence grobally means have business in india, US, Austrila...etc. always we can group the servers like below:
+-> Geography based: IN, US, UK, AU, etc
+-> Environment based: Like we have servers related to DEV, QA, PROD
+-> Component based: WEB, APP, DB
+-> Server Based: MongoDB, Cart, Catalogue
+
+Naming the server:
+-> <project_name>-<Geography>-<Environment>-<Component>-<Server>-01
+   roboshop-US-DEV-DB-MongoDB-01 -> This is server_1. If we have multiple servers for high availability we can name servers like below:
+   roboshop-US-DEV-DB-MongoDB-02
+   roboshop-US-DEV-DB-MongoDB-03
+   roboshop-US-DEV-DB-MongoDB-04 .......
+   
+   roboshop-IN-PROD-APP-CART-01
+   roboshop-IN-PROD-APP-CART-02
+   roboshop-IN-PROD-APP-CART-03 ........
+]
+	   
+In Inventory:
+[ 
+[nodes]
+172.31.91.91 ansible_user=ec2-user ansible_ssh_private_key_file=/home/ec2-user/.ssh/id_rsa
+172.31.92.110 ansible_user=ec2-user ansible_ssh_private_key_file=/home/ec2-user/.ssh/id_rsa
+]
+
+[
+$ansible -i inventory nodes -m ping
+$ansible-playbook -i inventory 03-variables.yaml
+]
+
+Adhoc Commands:(Its nothing but Emergency Purpose)
+$ansible -i /opt/inventory all -b -m ansible.builtin.yum -a "name=nginx state=installed"  means(yum install nginx)
+$ansible -i /opt/inventory all -b -m ansible.builtin.service -a "name=nginx state=started" means (systemctl start nginx)
+
+What is Ad-hoc command in Ansible?
+Ad-hoc commands in Ansible are one-time commands run directly from the command line without using a playbook. They are useful for quick tasks like checking system status, managing services, or copying files.
+(Ansible Ad-hoc command is genarally Ansible Command Line option to do something in the Ansible hosts in emergency situation. Its not scalable and re-usabe. We user Ad-hoc command only in time of emergency situation)
+
+#Shell_Scripting --> Keeping all the commands in a file with variables, conditions, loops..etc/ansible Like same playbook keeps all ansible cmds.
+
+playbook --> keeping all the ansible module/collections(i.e cmds in linux) in a YAML file and run that file.
+Playbook follows YAML(Yet Another Markup Language)
+
+YAML:
+In YAML Indentation is important --> means proper gap/space 
+Only Key Value Pair, Map(object{}) and list([]). In YAML list start with -
+
+playbook:
+playbook contain multiple plays.
+
+[
+$ansible.builtin.ping: --> is a module that checks connectivity between the Ansible server and target nodes.
+
+$ansible.builtin.debug: --> is a module used to display messages or variables during playbook execution.
+ $msg: --> is used with ansible.builtin.debug to display custom messages or variable values during execution.
+ #'ping' and 'msg' cannot be used in the same task.
+
+$ansible.builtin.package: -->  is a module that manages package installation, removal, and updates on any OS.(ansible.builtin.yum: Use when working only on RHEL-based systems.)
+ $state: --> is used to define the desired state of a resource (package, service, file, etc.).
+   Common state Values:
+    present → Ensures the package is installed.
+    absent → Ensures the package is removed.
+    started → Starts a service.
+    stopped → Stops a service.
+    directory → Ensures a directory exists.
+
+$ansible.builtin.service: is a module used to manage system services (start, stop, restart, enable, or disable) on target nodes.
+
+$ vars_files: Loads variables from an external YAML file into the playbook.
+$ vars_prompt: Prompts the user to enter a variable value at runtime.
+]
+
+
+
+
+
+
+
+
+
+  
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+	   
+
+
+
+

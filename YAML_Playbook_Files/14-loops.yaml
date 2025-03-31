@@ -1,0 +1,24 @@
+- name: Practicing loops  # Playbook name
+  hosts: localhost  # Target host (running on local machine)
+  become: true  # Run tasks with elevated privileges (required for package installation)
+  
+  tasks: 
+    - name: Print names using a loop  # Task to print each name
+      ansible.builtin.debug:
+        msg: "Hello {{ item }}"  # Print each name dynamically
+      loop:
+        - Divi
+        - Pavan 
+        - Kumar
+
+    - name: Install multiple packages using a loop  # Task to install packages
+      ansible.builtin.package:
+        name: "{{ item }}"  # Install each package from the loop
+        state: present  # Ensure the package is installed
+      loop:
+        - nginx
+        - postfix
+        - cyrus-sasl-plain
+        - matrix
+
+      

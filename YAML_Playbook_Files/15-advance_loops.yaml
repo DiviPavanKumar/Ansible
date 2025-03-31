@@ -1,0 +1,16 @@
+- name: Practicing loops  # Playbook name
+  hosts: localhost  # Target host (running on the local machine)
+  become: true  # Run tasks with elevated privileges (required for package installation)
+
+  tasks:
+    - name: Install or manage multiple packages dynamically
+      ansible.builtin.package:
+        name: "{{ item.name }}"  # Package name extracted from the loop
+        state: "{{ item.state }}"  # Desired state of the package (present/absent/latest)
+      #List of Map
+      loop: 
+        - { name: nginx, state: present }  # Install nginx
+        - { name: postfix, state: absent }  # Remove postfix
+        - { name: cyrus-sasl-plain, state: latest }  # Ensure cyrus-sasl-plain is updated
+
+     

@@ -1,0 +1,17 @@
+# Playbook to prompt for user input
+- name: Practicing vars_prompt in Ansible
+  hosts: nodes  # Target hosts (defined in inventory)
+  gather_facts: false  # Optional: Speeds up execution by skipping facts gathering
+  vars_prompt:  # Prompt the user to enter variables during playbook execution
+    - name: USERNAME  # Define variable for username
+      prompt: "Enter the username"  # Display prompt message
+      private: false  # Show input while typing (not hidden)
+
+    - name: PASSWORD  # Define variable for password
+      prompt: "Enter the password"  # Display prompt message
+      private: true  # Hide input while typing for security
+
+  tasks:
+    - name: Print variables  # Task to display the collected input
+      ansible.builtin.debug:
+        msg: "Username: {{ USERNAME }}, Password: {{ PASSWORD }}"  # Print values

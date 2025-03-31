@@ -1,0 +1,51 @@
+# YAML:
+# In YAML Indentation is important --> means proper gap/space 
+# Only Key Value Pair, Map(object{}) and list([]). In YAML list start with -
+
+#List of persons
+
+#Person1 Details in YAML format
+- name: Pavan #This is Key-Value pair
+  Role: DevOps Engineer
+  Age: 32
+  address: #This is Map of address
+    city: Hyderabad
+    state: Telangana
+    country: India
+    pincode: 500090
+  addresses: #This is List of addresses
+    - city: Hyderabad
+      state: Telangana
+      country: India
+      pincode: 500090
+    - city: Bangalore
+      state: Karnataka
+      country: India
+      pincode: 560001
+    - city: Chennai
+      state: Tamil Nadu
+      country: India
+      pincode: 600001
+
+#Person2 Details in YAML format
+- name: Pavan
+  Role: DevOps Engineer
+  Age: 32
+  address: #This is Map of address
+    city: Hyderabad
+    state: Telangana
+    country: India
+    pincode: 500090
+  addresses: #This is List of addresses
+    - city: Hyderabad
+      state: Telangana
+      country: India
+      pincode: 500090
+    - city: Bangalore
+      state: Karnataka
+      country: India
+      pincode: 560001
+    - city: Chennai
+      state: Tamil Nadu
+      country: India
+      pincode: 600001

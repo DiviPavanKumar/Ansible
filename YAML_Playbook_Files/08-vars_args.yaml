@@ -1,0 +1,8 @@
+- name: Vars from cmd line  # Playbook to fetch variables from the command line
+  hosts: nodes  # Target hosts (defined in inventory)
+  tasks:
+    - name: Show the var value from cmd line  # Task to print variable value
+      ansible.builtin.debug:
+        msg: "Name is: {{ NAME }}"  # Display the value of NAME variable
+
+#cmd line: $ansible-playbook -i inventory -e NAME=DevOps_Engineer 07-vars_inventory.yaml

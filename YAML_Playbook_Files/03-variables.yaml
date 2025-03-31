@@ -1,0 +1,12 @@
+# Playbook to practice using variables in Ansible
+- name: Practicing variables
+  hosts: nodes  # Target hosts (defined in inventory)
+  vars:  # Defining variables
+    var1: "Hello Ansible"  # First variable with a greeting message
+    var2: "I'm practicing variables"  # Second variable describing practice
+    var3: "by writing YAML PLAYBOOK Script"  # Third variable adding details
+  tasks: 
+    - name: Print variables  # Task to display the variable values
+      ansible.builtin.debug:
+        msg: "{{ var1 }}, {{ var2 }} {{ var3 }}"  # Printing the variables in a single message
+

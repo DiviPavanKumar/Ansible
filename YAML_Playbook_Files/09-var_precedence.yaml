@@ -1,0 +1,31 @@
+- name: Checking vars precedence  # Playbook to check variable precedence
+  hosts: nodes
+
+  # vars:  # 5️⃣ Play-level variable (Lower precedence than task-level and prompted variables)
+  #   NAME: "Pavan-PlayArea"
+
+  # vars_files:  # 3 Load variables from an external file (variables.yaml)
+  #   - variables.yaml  
+
+  # vars_prompt:  # 4 Prompt the user for a variable at runtime (Overrides play-level and vars_files)
+  #   - name: NAME
+  #     prompt: "Enter Username"  # User will enter a value when running the playbook
+  #     private: false  # Show user input in the terminal
+
+  tasks:
+    - name: Variable at task level  # 2 Highest priority in this playbook (except command-line vars)
+      # vars:
+      #   NAME: "Pavan-TaskLevel"  # Overrides all previous values for this task only
+      ansible.builtin.debug:
+        msg: "Printing this message from {{ NAME }}"
+
+# How Variables are Resolved in Precedence Order
+# 1. Command-line (-e "NAME=XYZ" with ansible-playbook)
+# 2. Task-level (vars: inside a task) → Highest precedence
+# 3. From an external file (vars_files:)
+# 4. Prompted variables (vars_prompt:)
+# 5. Play-level (vars: at play level)
+# 6. Inventory variables (defined in inventory file)
+# 7. Role defaults (lowest precedence)
+
+    

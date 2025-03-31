@@ -1,0 +1,12 @@
+# vars_files: is used in Ansible playbooks to load external YAML files containing variable definitions. 
+# This helps keep playbooks clean and modular.
+
+# Playbook to use external variable files
+- name: Practicing Var_Files
+  hosts: nodes  # Target hosts (defined in inventory)
+  vars_files:  # Load variables from an external YAML file
+    - variables.yaml  # External file containing variable definitions
+  tasks:
+    - name: Printing Var_Files Data  # Task to display variable values
+      ansible.builtin.debug:
+        msg: "{{ NAME }} {{ Job }} {{ Location }}"  # Print variables from variables.yaml

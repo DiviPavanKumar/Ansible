@@ -1,0 +1,16 @@
+$ansible.builtin.ping: --> is a module that checks connectivity between the Ansible server and target nodes.
+
+$ansible.builtin.debug: --> is a module used to display messages or variables during playbook execution.
+ $msg: --> is used with ansible.builtin.debug to display custom messages or variable values during execution.
+
+$ansible.builtin.package: -->  is a module that manages package installation, removal, and updates on any OS.(ansible.builtin.yum: Use when working only on RHEL-based systems.)
+ $state: --> is used to define the desired state of a resource (package, service, file, etc.).
+   Common state Values:
+    present → Ensures the package is installed.
+    absent → Ensures the package is removed.
+    started → Starts a service.
+    stopped → Stops a service.
+    directory → Ensures a directory exists.
+
+$ansible.builtin.service: is a module used to manage system services (start, stop, restart, enable, or disable) on target nodes.
+

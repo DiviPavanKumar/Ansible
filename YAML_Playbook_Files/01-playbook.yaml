@@ -1,0 +1,17 @@
+# A playbook must be a list of plays. Ensure your playbook starts with a list (- name:) always.
+- name: 1st playbook YAML code for pinging the nodes from Ansible server
+  hosts: nodes
+  tasks:  # This is a list of tasks/modules/commands to execute.
+
+    # Task 1 (List Item 1)
+    - name: Ping the nodes from the server
+      ansible.builtin.ping:  # This is a module call (not a key-value pair)
+
+    # Task 2 (List Item 2)
+    - name: Display a message
+      ansible.builtin.debug:  # This is a module call with a parameter (key-value pair)
+        msg: "Hello Pavan. This ping is successful."  # msg is a key under ansible.builtin.debug
+
+#'ping' and 'msg' cannot be used in the same task.
+
+    

@@ -1,0 +1,16 @@
+- name: Creating user if not exist already
+  hosts: localhost
+  tasks:
+    - name: Check if the user already exists
+      ansible.builtin.command: id roboshop  # Runs 'id roboshop' to check user existence
+      register: output  # Stores the command output
+      ignore_errors: true  # Ignores errors if the user does not exist
+
+    - name: Print the result
+      ansible.builtin.debug:
+        msg: "Status is {{ output.rc }}"  # Displays return code (0 = exists, non-zero = not exists)
+
+    - name: Create user 'roboshop' if not exists
+      ansible.builtin.user:
+        name: roboshop  # Creates the user
+      when: output.rc != 0  # Runs only if user does not exist

@@ -1,0 +1,31 @@
+#Take username as variable, then check dynamically whether user exist or not and create username if not exist.
+
+- name: Check username dynamically and create if not exist
+  hosts: localhost  
+  gather_facts: false  
+
+  vars_prompt:  # Prompt the user for input
+    - name: USERNAME  
+      prompt: "Enter the username"  
+      private: false  
+
+  tasks:
+    - name: Check if the user already exists  
+      ansible.builtin.command: id {{ USERNAME }}  
+      register: user_check  
+      ignore_errors: true  # Ignore errors if user does not exist
+
+    - name: Print user existence status  
+      ansible.builtin.debug:  
+        msg: "{{ USERNAME }} already exists!"  
+      when: user_check.rc == 0  # If 'id' command returns 0, user exists
+
+    - name: Create user if not exists  
+      ansible.builtin.user:  
+        name: "{{ USERNAME }}"  
+      when: user_check.rc != 0  # If 'id' command fails, create user
+
+    - name: Print user creation message  
+      ansible.builtin.debug:  
+        msg: "{{ USERNAME }} has been created successfully!"  
+      when: user_check.rc != 0  

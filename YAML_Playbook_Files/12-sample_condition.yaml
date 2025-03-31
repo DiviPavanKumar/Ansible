@@ -1,0 +1,21 @@
+- name: Sample condition
+  hosts: localhost  
+  gather_facts: false  # Skipping facts collection for faster execution
+
+  vars_prompt:  # Prompt the user for input
+    - name: USERNAME  # Variable name (should be lowercase for consistency)
+      prompt: "Enter the name"  
+      private: false  
+
+  tasks:
+    - name: Print the condition if it does not match
+      ansible.builtin.debug:
+        msg: "Hi, condition failed"  
+      when: USERNAME != "DevOps"  # Checks if input is NOT 'DevOps'
+
+    - name: Print the condition if it matches
+      ansible.builtin.debug:
+        msg: "Hi, condition passed successfully"  
+      when: USERNAME == "DevOps"  # Checks if input is 'DevOps'
+
+

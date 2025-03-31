@@ -1,0 +1,27 @@
+[
+    {
+        "name" : "Pavan",
+        "age" : "30",
+        "address" : { 
+            "street" : "123 Main St",
+            "city" : "New York",
+            "state" : "NY",
+            "zip" : "10001"
+        }
+    },
+    
+    {
+        "name" : "Pavan",
+        "age" : "30",
+        "address" : [
+            {
+                "street" : "123 Main St",
+                "city" : "New York"
+            },
+            {
+                "street" : "456 Elm St",
+                "city" : "Los Angeles"
+            }
+        ]
+    }
+]
